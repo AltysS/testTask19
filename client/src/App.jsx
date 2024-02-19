@@ -19,8 +19,9 @@ function App() {
   const [responces, setResponces] = useState([]);
 
   const handleChange = useCallback((value) => {
+    console.log(value);
     setCount(value);
-    setError(true);
+    setError(value < 0 || value > 100);
   }, []);
 
   const sendRequestAsync = async (index) => {
@@ -38,11 +39,10 @@ function App() {
   };
 
   const handleStartClick = async () => {
-    if (!count) {
+    if (count.trim() === "" || error) {
       setError(true);
       return;
     }
-    setError(false);
     setLoading(true);
     const requests = 1000;
     await limitRequestsPerSecond(requests, count, sendRequestAsync);
